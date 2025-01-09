@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Contracts\MerchantApi;
+use Illuminate\Support\Facades\Log;
 
 class OrdersController extends Controller
 {
@@ -14,6 +15,8 @@ class OrdersController extends Controller
     public function showTopTenProducts(Request $request): View
     {
         $topTenProducts = $this->merchant->getTopTenProducts();
+
+        Log::debug(json_encode($topTenProducts));
 
         return view('orders.list', ['topProducts' => $topTenProducts]);
     }
@@ -25,8 +28,23 @@ class OrdersController extends Controller
 
     public function updateStock(Request $request)
     {
-        // update stock
+        $request->validate([
+            'stockLocationId' => 'required|max:10|numeric',
+            'stockAmount' => 'required|numeric',
+        ]);
 
-        return redirect('/')->with('status', 'Stock updated!');
+        $result = $this->merchant->updateStock(
+            $request->route()->parameters['merchantProductNumber'],
+            $request->integer('stockLocationId'),
+            $request->integer('stockAmount')
+        );
+
+        Log::debug(json_encode($result));
+
+        if ($result->StatusCode == 200) {
+            return redirect('/')->with('success', 'Stock updated!');
+        }
+
+        return redirect('/')->with('error', 'Stock updated failed!');
     }
 }

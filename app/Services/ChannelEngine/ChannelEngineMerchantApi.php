@@ -15,6 +15,21 @@ class ChannelEngineMerchantApi implements MerchantApi
         ])->object();
     }
 
+    public function updateStock(string $merchantProductNumber, int $stockLocationId, int $stockAmount)
+    {
+        return Http::put($this->getBaseUrl() . '/offer/stock?' . 'apiKey=' . config('services.merchant_api.key'), [
+            [
+                "MerchantProductNo" => $merchantProductNumber,
+                "StockLocations" => [
+                    [
+                        "Stock" => $stockAmount,
+                        "StockLocationId" => $stockLocationId
+                    ]
+                ]
+            ]
+        ])->object();
+    }
+
     public function getTopTenProducts(int $limit = 5)
     {
         $orders = $this->getOrdersByStatus();

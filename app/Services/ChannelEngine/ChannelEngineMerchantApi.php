@@ -36,21 +36,22 @@ class ChannelEngineMerchantApi implements MerchantApi
 
         $topProducts = array();
 
+        // Loop through each order and count the line items by the MerchantProductNo
         foreach ($orders->Content as $order) {
             $lines = $order->Lines;
 
             foreach ($lines as $item) {
 
-                if (!key_exists($item->Gtin, $topProducts)) {
+                if (!key_exists($item->MerchantProductNo, $topProducts)) {
 
-                    $topProducts[$item->Gtin] = [
+                    $topProducts[$item->MerchantProductNo] = [
                         "productName" => $item->Description,
                         "gtin" => $item->Gtin,
                         "count" => 1,
                         "merchantProductNumber" => $item->MerchantProductNo,
                     ];
                 } else {
-                    $topProducts[$item->Gtin]['count']++;
+                    $topProducts[$item->MerchantProductNo]['count']++;
                 }
             }
         }

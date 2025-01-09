@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:title>
         Top Ten Products
-    </x-slot>
+        </x-slot>
 
         <h3>Top Ten Products</h3>
 
@@ -20,7 +20,7 @@
                     <td>{{ $product['gtin'] }}</td>
                     <td>{{ $product['productName'] }}</td>
                     <td>{{ $product['count'] }}</td>
-                    <td><a class="btn btn-link" href="">Update Stock</a></td>
+                    <td><a class="btn btn-link" href="/update-stock/{{ $product['merchantProductNumber'] }}">Update Stock</a></td>
                 </tr>
                 @endforeach
             </tbody>

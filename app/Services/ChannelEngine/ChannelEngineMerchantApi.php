@@ -27,11 +27,12 @@ class ChannelEngineMerchantApi implements MerchantApi
             foreach ($lines as $item) {
 
                 if (!key_exists($item->Gtin, $topProducts)) {
-                    
+
                     $topProducts[$item->Gtin] = [
                         "productName" => $item->Description,
                         "gtin" => $item->Gtin,
-                        "count" => 1
+                        "count" => 1,
+                        "merchantProductNumber" => $item->MerchantProductNo,
                     ];
                 } else {
                     $topProducts[$item->Gtin]['count']++;

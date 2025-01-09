@@ -16,8 +16,6 @@ class OrdersController extends Controller
     {
         $topTenProducts = $this->merchant->getTopTenProducts();
 
-        Log::debug(json_encode($topTenProducts));
-
         return view('orders.list', ['topProducts' => $topTenProducts]);
     }
 
@@ -38,8 +36,6 @@ class OrdersController extends Controller
             $request->integer('stockLocationId'),
             $request->integer('stockAmount')
         );
-
-        Log::debug(json_encode($result));
 
         if ($result->StatusCode == 200) {
             return redirect('/')->with('success', 'Stock updated!');

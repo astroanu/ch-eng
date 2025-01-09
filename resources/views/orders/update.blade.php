@@ -10,11 +10,11 @@
                 @csrf
                 <div class="form-group">
                     <label>Stock Location Id</label>
-                    <input require maxlength="10" type="number" name="stockLocationId" class="form-control" />
+                    <input require maxlength="10" type="number" value="2" name="stockLocationId" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Stock amount</label>
-                    <input require maxlength="3" type="number" name="stockAmount" class="form-control" />
+                    <input require maxlength="3" type="number" value="25" name="stockAmount" class="form-control" />
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
                 <a href="/" class="btn btn-link">Cancel</a>

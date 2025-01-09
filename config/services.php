@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'merchant_api' =>[
+        'base_url' => env('MERCHANT_API_BASE_URL'),
+        'key' => env('MERCHANT_API_KEY'),
+    ]
+
 ];

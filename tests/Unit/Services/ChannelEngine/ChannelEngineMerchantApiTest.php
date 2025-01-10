@@ -4,10 +4,26 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Services\ChannelEngine\ChannelEngineMerchantApi;
-use Illuminate\Support\Facades\Http;
 
 class ChannelEngineMerchantApiTest extends TestCase
 {
+    public function test_service_updates_stock_failed(): void
+    {
+        // Arrange
+        $httpMock = $this->mockHttpResponse('/offer/stock', 'update-stock-failed.json', 400);
+
+        $underTest = new ChannelEngineMerchantApi();
+
+        // Act
+        $result = $underTest->updateStock('123456789', 9999999999, 25);
+
+        // Assert
+        $httpMock->assertSent(function ($request) {
+            return $request->url() == $this->testBaseUrl . '/offer/stock?apiKey=API_KEY';
+        });
+
+        $this->assertEquals($result->StatusCode, 400);
+    }
 
     public function test_service_updates_stock_success(): void
     {
@@ -27,7 +43,7 @@ class ChannelEngineMerchantApiTest extends TestCase
         $this->assertEquals($result->StatusCode, 200);
     }
 
-    public function test_service_returns_top_ten_products(): void
+    public function test_service_returns_top_products(): void
     {
         // Arrange
         $httpMock = $this->mockHttpResponse('/orders', 'orders.json', 200);
@@ -35,7 +51,7 @@ class ChannelEngineMerchantApiTest extends TestCase
         $underTest = new ChannelEngineMerchantApi();
 
         // Act
-        $result = $underTest->getTopTenProducts();
+        $result = $underTest->getTopProducts();
 
         // Assert
         $httpMock->assertSent(function ($request) {

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class ChannelEngineMerchantApi implements MerchantApi
 {
-    public function getOrdersByStatus(array $statues = ['IN_PROGRESS'])
+    public function getOrdersByStatus(array $statues)
     {
         return Http::get($this->getBaseUrl() . '/orders', [
             'apiKey' => config('services.merchant_api.key'),
@@ -30,9 +30,9 @@ class ChannelEngineMerchantApi implements MerchantApi
         ])->object();
     }
 
-    public function getTopTenProducts(int $limit = 5)
+    public function getTopProducts(int $limit = 5)
     {
-        $orders = $this->getOrdersByStatus();
+        $orders = $this->getOrdersByStatus(['IN_PROGRESS']);
 
         $topProducts = array();
 

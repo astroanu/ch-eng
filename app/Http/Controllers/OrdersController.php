@@ -12,11 +12,11 @@ class OrdersController extends Controller
 {
     public function __construct(protected MerchantApi $merchant) {}
 
-    public function showTopTenProducts(Request $request): View
+    public function showTopProducts(Request $request): View
     {
-        $topTenProducts = $this->merchant->getTopTenProducts();
+        $topProducts = $this->merchant->getTopProducts();
 
-        return view('orders.list', ['topProducts' => $topTenProducts]);
+        return view('orders.list', ['topProducts' => $topProducts]);
     }
 
     public function showUpdateStock(Request $request): View

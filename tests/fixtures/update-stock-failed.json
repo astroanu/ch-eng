@@ -1,0 +1,16 @@
+{
+    "StatusCode": 400,
+    "RequestId": null,
+    "LogId": null,
+    "Success": false,
+    "Message": "Some fields did not pass validation, see ValidationErrors for details.",
+    "ExceptionType": null,
+    "ValidationErrors": {
+        "model": [
+            "The model field is required."
+        ],
+        "[0].StockLocations[0].StockLocationId": [
+            "JSON integer 2323423423423 is too large or small for an Int32. Path '[0].StockLocations[0].StockLocationId', line 1, position 111."
+        ]
+    }
+}

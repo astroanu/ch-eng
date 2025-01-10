@@ -9,33 +9,37 @@ class TopTenProductsTest extends TestCase
 {
     public function test_save_stock_update(): void
     {
-        Http::fake([
-            'https://api.channelengine.test/api/v2/offer/stock*' => Http::response(file_get_contents(__DIR__ . '/../fixtures/orders.json'), 200),
-        ]);
+        // Arrange
+        $this->mockHttpResponse('/offer/stock', 'update-stock.json', 200);
 
+        // Act
         $response = $this->post('/update-stock/123-test-merchant-id', [
             "stockLocationId" => 6,
             "stockAmount" => 12,
         ]);
 
+        // Assert
         $response->assertRedirect('/');
     }
 
     public function test_display_stock_update(): void
     {
+        // Act
         $response = $this->get('/update-stock/123-test-merchant-id');
 
+        // Assert
         $response->assertStatus(200);
     }
 
     public function test_display_top_ten_products(): void
     {
-        Http::fake([
-            'https://api.channelengine.test/api/v2/orders*' => Http::response(file_get_contents(__DIR__ . '/../fixtures/orders.json'), 200),
-        ]);
+        // Arrange
+        $this->mockHttpResponse('/orders', 'orders.json', 200);
 
+        // Act
         $response = $this->get('/');
 
+        // Assert
         $response->assertStatus(200);
     }
 }

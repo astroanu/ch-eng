@@ -27,7 +27,7 @@ class OrdersController extends Controller
     public function updateStock(Request $request)
     {
         $request->validate([
-            'stockLocationId' => 'required|max:10|numeric',
+            'stockLocationId' => 'required|numeric',
             'stockAmount' => 'required|numeric',
         ]);
 

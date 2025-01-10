@@ -11,16 +11,17 @@ class ChannelEngineMerchantApiTest extends TestCase
 
     public function test_service_updates_stock_success(): void
     {
-        $httpMock = Http::fake([
-            'https://api.channelengine.test/api/v2/offer/stock*' => Http::response(file_get_contents(__DIR__ . '/../../../fixtures/update-stock.json'), 200),
-        ]);
+        // Arrange
+        $httpMock = $this->mockHttpResponse('/offer/stock', 'update-stock.json', 200);
 
         $underTest = new ChannelEngineMerchantApi();
 
+        // Act
         $result = $underTest->updateStock('123456789', 2, 25);
 
+        // Assert
         $httpMock->assertSent(function ($request) {
-            return $request->url() == 'https://api.channelengine.test/api/v2/offer/stock?apiKey=API_KEY';
+            return $request->url() == $this->testBaseUrl . '/offer/stock?apiKey=API_KEY';
         });
 
         $this->assertEquals($result->StatusCode, 200);
@@ -28,14 +29,15 @@ class ChannelEngineMerchantApiTest extends TestCase
 
     public function test_service_returns_top_ten_products(): void
     {
-        $httpMock = Http::fake([
-            'https://api.channelengine.test/api/v2/orders*' => Http::response(file_get_contents(__DIR__ . '/../../../fixtures/orders.json'), 200),
-        ]);
+        // Arrange
+        $httpMock = $this->mockHttpResponse('/orders', 'orders.json', 200);
 
         $underTest = new ChannelEngineMerchantApi();
 
+        // Act
         $result = $underTest->getTopTenProducts();
 
+        // Assert
         $httpMock->assertSent(function ($request) {
             return $request['apiKey'] == 'API_KEY';
         });
